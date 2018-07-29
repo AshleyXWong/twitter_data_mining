@@ -1,0 +1,48 @@
+import tweepy
+from textblob import TextBlob
+
+consumer_key = "CENSORED PRIVATE INFORMATION"
+consumer_secret = "CENSORED PRIVATE INFORMATION"
+access_key = "CENSORED PRIVATE INFORMATION"
+access_secret = "CENSORED PRIVATE INFORMATION"
+
+# API's setup:
+def twitter_setup():
+    """
+    Utility function to setup the Twitter's API
+    with our access keys provided.
+    """
+    # Authentication and access using keys:
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_key, access_secret)
+
+    # Return API with authentication:
+    api = tweepy.API(auth)
+    return api
+
+def define_polarity(string):
+    analyze_polar = TextBlob(string).sentiment.polarity
+    if analyze_polar > 0:
+        return "positive"
+    elif analyze_polar == 0:
+        return "neutral"
+    else:
+        return "negative"
+    
+
+def extract_tweets():
+# We create a tweet list as follows:
+    extractor = twitter_setup()
+    
+    # We create a tweet list as follows:
+    tweets = extractor.user_timeline(screen_name="realDonaldTrump", count=200)
+    print("Number of tweets extracted: {}.\n".format(len(tweets)))
+    
+    #test --> print out id and create_at and text and polarity of 10 texts  
+    for i in range(10):
+        print(tweets[i].id)
+        print(tweets[i].created_at)
+        print(tweets[i].text, define_polarity(tweets[i].text))
+        print()
+
+extract_tweets()
