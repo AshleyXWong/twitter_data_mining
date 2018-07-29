@@ -29,20 +29,23 @@ def define_polarity(string):
     else:
         return "negative"
     
-
-def extract_tweets():
+def extract_tweets(twitter_handle):
 # We create a tweet list as follows:
     extractor = twitter_setup()
     
     # We create a tweet list as follows:
-    tweets = extractor.user_timeline(screen_name="realDonaldTrump", count=200)
+    tweets = extractor.user_timeline(screen_name=twitter_handle, count=200)
     print("Number of tweets extracted: {}.\n".format(len(tweets)))
     
-    #test --> print out id and create_at and text and polarity of 10 texts  
+    # We print the most recent 5 tweets:
+    #for tweet in tweets[:200]:
+    #    print(tweet.text)
+    #    print()
+    #    
     for i in range(10):
         print(tweets[i].id)
         print(tweets[i].created_at)
         print(tweets[i].text, define_polarity(tweets[i].text))
         print()
 
-extract_tweets()
+extract_tweets("realdonaldtrump")
